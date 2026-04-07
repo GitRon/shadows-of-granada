@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: white; width: 210mm; margin: 0 auto; padding: 10mm; }
+  h1 { font-size: 14pt; text-align: center; color: #3b2a1a; margin-bottom: 1mm; }
+  .sub { font-size: 8pt; text-align: center; color: #7a5c3a; margin-bottom: 5mm; }
+  .section-title { font-size: 11pt; color: #3b2a1a; font-weight: bold; margin: 5mm 0 3mm; border-bottom: 1px solid #c0a880; padding-bottom: 1mm; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+  .card { border-radius: 4px; overflow: hidden; border: 2px solid; background: white; page-break-inside: avoid; display: flex; flex-direction: column; }
+  .hdr { padding: 2mm 3mm; }
+  .hdr .name { color: white; font-weight: bold; font-size: 9pt; }
+  .hdr .meta { color: rgba(255,255,255,0.8); font-size: 7pt; margin-top: 0.5mm; }
+  .solve { padding: 2mm 3mm; border-bottom: 1px dashed #c0a880; background: #fffdf7; }
+  .solve .lbl { font-size: 6.5pt; color: #9a7a5a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1mm; }
+  .solve .sym { font-size: 12pt; line-height: 1; }
+  .solve .txt { font-size: 7pt; color: #555; margin-top: 1mm; }
+  .immediate { padding: 2mm 3mm; border-bottom: 1px dashed #c0a880; }
+  .immediate .lbl { font-size: 6.5pt; color: #9a7a5a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1mm; }
+  .immediate .txt { font-size: 7.5pt; color: #1a1a1a; line-height: 1.35; }
+  .escalation { padding: 2mm 3mm; background: #fff5f5; }
+  .escalation .lbl { font-size: 6.5pt; color: #c0392b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1mm; }
+  .escalation .txt { font-size: 7.5pt; color: #6b1a1a; line-height: 1.35; }
+  .effect { padding: 2mm 3mm; background: #eaf0f7; }
+  .effect .lbl { font-size: 6.5pt; color: #1a5276; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1mm; }
+  .effect .txt { font-size: 7.5pt; color: #1a3a5a; line-height: 1.35; }
+  .sev1 { color: #b7950b; } .sev2 { color: #d35400; } .sev3 { color: #c0392b; }
+  @media print { body { padding: 8mm; } }
+</style>
+</head>
+<body>
+
+<h1>RECONQUISTA – Krisenkarten</h1>
+<p class="sub">12 dynamische Krisen + 6 fixe Regionskrisen · Ausschneiden an den Rändern</p>
+
+<div class="section-title">⚠️ Dynamische Krisen (12 Karten)</div>
+<div class="grid" id="dynamic"></div>
+
+<div class="section-title" style="margin-top:8mm">🔒 Fixe Regionskrisen (6 Karten)</div>
+<div class="grid" id="region"></div>
+
+<script>
+const sev = { 1:"🟡 Gering", 2:"🟠 Mittel", 3:"🔴 Schwer" };
+
+const dynamic = [
+  { name:"Almoravideneinfall",     severity:3, solve:"⚔️ + ✝️ + 💰",         immediate:"Alle Spieler werfen die oberste Karte eines Slots ab.",                              escalation:"Fortschrittsmarker um 1 zurück – eine Region gefährdet." },
+  { name:"Taifa-Verrat",           severity:2, solve:"👑 + 💰 + ✝️",          immediate:"Kein Spieler darf diese Runde den Kooperationsmoment nutzen.",                       escalation:"Ein Spieler verliert eine Karte seiner Wahl." },
+  { name:"Hungersnot",             severity:2, solve:"🌾 + 💰 + ⚔️",          immediate:"Alle 🌾-Verstärkungen zählen diese Runde nicht.",                                    escalation:"Militär-Slot der betroffenen Region wird blockiert." },
+  { name:"Adelsrevolte",           severity:2, solve:"👑 + ⚔️ + 💰",          immediate:"Kein Spieler darf diese Runde Karten tauschen.",                                     escalation:"Ein Spieler legt seinen stärksten Slot für 1 Runde still." },
+  { name:"Kirchenspaltung",        severity:2, solve:"✝️ + 👑 + 🌾",          immediate:"Alle ✝️-Verstärkungen zählen diese Runde nicht.",                                    escalation:"Alle Aktionskarten mit ✝️ können nicht gespielt werden bis gelöst." },
+  { name:"Maurische Gegenoffensive", severity:3, solve:"⚔️ + 🏰 + ✝️",       immediate:"Sofort eine zweite Krisenkarte aufdecken und würfeln.",                              escalation:"Beide betroffenen Regionen eskalieren gleichzeitig." },
+  { name:"Pestwelle",              severity:2, solve:"🌾 + ✝️ + 💰",          immediate:"Jeder Spieler verliert die unterste Karte eines Slots.",                             escalation:"Würfle erneut – Krise breitet sich auf zweite Region aus." },
+  { name:"Erbfolgestreit",         severity:2, solve:"👑 + ✝️ + 🌾",          immediate:"Zwei Spieler müssen ihre Aktionen dieser Runde tauschen.",                           escalation:"Kein Spieler darf von der betroffenen Region Karten nachziehen." },
+  { name:"Dürre",                  severity:1, solve:"🌾 + 💰",               immediate:"Alle 💰-Aktionen bringen diese Runde die Hälfte.",                                   escalation:"💰-Aktionen bleiben halbiert bis gelöst." },
+  { name:"Piratenangriff",         severity:1, solve:"⚔️ + 🏰 + 💰",          immediate:"Ein zufälliger Spieler muss eine Karte abwerfen.",                                   escalation:"Handelsrouten unterbrochen – alle 💰-Aktionen halbiert bis gelöst." },
+  { name:"Ritterorden zerfällt",   severity:2, solve:"✝️ + 🏰 + 👑",          immediate:"Alle 🏰-Verstärkungen zählen diese Runde nur halb.",                                escalation:"Militär-Slot der betroffenen Region dauerhaft geschwächt bis gelöst." },
+  { name:"Inquisition",            severity:3, solve:"✝️ + 👑 + 💰",          immediate:"Jeder Spieler wirft eine Karte mit ✝️ ab. Hat er keine, verliert er die oberste Karte eines Slots.", escalation:"Alle ✝️ zählen nicht als Verstärkung bis gelöst." },
+];
+
+const region = [
+  { name:"Kalifat von Córdoba",      region:"Meseta Norte",       solve:"⚔️ + ✝️ + 💰",            effect:"Blockiert alle Slots in Meseta Norte. Eskaliert nicht." },
+  { name:"Taifa-Könige von Toledo",  region:"Toledo / Tajo",      solve:"⚔️ + 👑 + 🌾",            effect:"Blockiert alle Slots in Toledo. Eskaliert nicht." },
+  { name:"Taifa von Valencia",       region:"Valencia / Levante", solve:"⚔️ + 💰 + 🏰",            effect:"Blockiert alle Slots in Valencia. Eskaliert nicht." },
+  { name:"Almoravidenreich",         region:"Extremadura",        solve:"⚔️ + 🏰 + ✝️",            effect:"Blockiert alle Slots in Extremadura. Eskaliert nicht." },
+  { name:"Nasridensultanat",         region:"Granada",            solve:"⚔️ + ✝️ + 👑 + 🌾",       effect:"Blockiert alle Slots in Granada. Liegt über der Belagerung. Eskaliert nicht." },
+  { name:"Belagerung von Granada",   region:"Granada – Schicht 2", solve:"⚔️ + ✝️ + 👑 + 🌾 + 💰", effect:"Liegt unter dem Nasridensultanat. Wird erst sichtbar wenn dieses gelöst ist. Eskaliert nicht." },
+];
+
+const dGrid = document.getElementById("dynamic");
+dynamic.forEach(c => {
+  dGrid.innerHTML += `
+    <div class="card" style="border-color:#8b2020">
+      <div class="hdr" style="background:#8b2020">
+        <div class="name">${c.name}</div>
+        <div class="meta">${sev[c.severity]}</div>
+      </div>
+      <div class="solve">
+        <div class="lbl">Zum Lösen benötigt</div>
+        <div class="sym">${c.solve.split(" + ").join("  ")}</div>
+        <div class="txt">${c.solve}</div>
+      </div>
+      <div class="immediate">
+        <div class="lbl">⚡ Soforteffekt</div>
+        <div class="txt">${c.immediate}</div>
+      </div>
+      <div class="escalation">
+        <div class="lbl">🔺 Eskalation</div>
+        <div class="txt">${c.escalation}</div>
+      </div>
+    </div>`;
+});
+
+const rGrid = document.getElementById("region");
+region.forEach(c => {
+  rGrid.innerHTML += `
+    <div class="card" style="border-color:#1a5276">
+      <div class="hdr" style="background:#1a5276">
+        <div class="name">${c.name}</div>
+        <div class="meta">📍 ${c.region} · 🔒 Fest</div>
+      </div>
+      <div class="solve">
+        <div class="lbl">Zum Erobern benötigt</div>
+        <div class="sym">${c.solve.split(" + ").join("  ")}</div>
+        <div class="txt">${c.solve}</div>
+      </div>
+      <div class="effect">
+        <div class="lbl">🔒 Effekt</div>
+        <div class="txt">${c.effect}</div>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>

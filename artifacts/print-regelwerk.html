@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: Georgia, serif;
+    font-size: 11pt;
+    color: #1a1a1a;
+    background: white;
+    padding: 20mm 20mm;
+    width: 210mm;
+    margin: 0 auto;
+  }
+
+  h1 { font-size: 20pt; text-align: center; margin-bottom: 2mm; color: #3b2a1a; }
+  h2 { font-size: 13pt; margin: 6mm 0 2mm; color: #3b2a1a; border-bottom: 1px solid #c0a880; padding-bottom: 1mm; }
+  h3 { font-size: 11pt; margin: 4mm 0 1mm; color: #5a3a1a; }
+  p  { margin-bottom: 2mm; line-height: 1.5; }
+  ul { margin: 1mm 0 2mm 5mm; }
+  li { margin-bottom: 1mm; line-height: 1.5; }
+
+  .subtitle { text-align: center; color: #7a5c3a; font-size: 10pt; margin-bottom: 6mm; }
+
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0; font-size: 10pt; }
+  th { background: #3b2a1a; color: white; padding: 2mm 3mm; text-align: left; }
+  td { padding: 2mm 3mm; border-bottom: 1px solid #e0d0c0; }
+  tr:nth-child(even) td { background: #faf7f2; }
+
+  .symbol-table td:first-child { font-size: 14pt; width: 12mm; }
+
+  .box {
+    border: 1px solid #c0a880;
+    border-radius: 4px;
+    padding: 3mm 4mm;
+    margin: 2mm 0;
+    background: #faf7f2;
+  }
+
+  .sieg   { border-color: #2e6b3e; background: #e8f5e9; }
+  .niederlage { border-color: #8b2020; background: #fdecea; }
+
+  .pagebreak { page-break-before: always; }
+
+  strong { color: #3b2a1a; }
+
+  @media print {
+    body { padding: 15mm 15mm; }
+    .pagebreak { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<h1>RECONQUISTA</h1>
+<p class="subtitle">Kooperatives Kartenspiel für 2–4 Spieler · Regelwerk V1</p>
+
+<h2>Ziel</h2>
+<div class="box sieg">
+  <strong>Sieg:</strong> Alle fünf muslimischen Regionskrisen lösen und damit die Reconquista abschließen. Granada fällt zuletzt – mit zwei gestapelten Krisen.
+</div>
+<div class="box niederlage" style="margin-top:2mm">
+  <strong>Niederlage:</strong> 6 ungelöste Krisen gleichzeitig auf dem Tableau – oder eine Runde endet in der kein einziger Spieler einen Token auf eine Krise legen konnte.
+</div>
+
+<h2>Komponenten</h2>
+<ul>
+  <li>1 gemeinsames Tableau (6 Regionen von Nord nach Süd)</li>
+  <li>24 Aktionskarten (gemeinsames Deck, 4 pro Symbol)</li>
+  <li>12 dynamische Krisenkarten</li>
+  <li>6 fixe Regionskrisen (eine pro muslimische Region, Granada zwei)</li>
+  <li>4 Königreich-Tableaus (je 3 Slots mit aufgedruckter Startverstärkung)</li>
+  <li>72 Symboltokens (12 pro Symbol) + 12 Eskalationsmarker</li>
+  <li>1 W6</li>
+</ul>
+
+<h2>Symbole</h2>
+<table class="symbol-table">
+  <tr><td>⚔️</td><td><strong>Militär</strong> – Schlachten, Belagerungen, Verteidigung</td></tr>
+  <tr><td>✝️</td><td><strong>Kirche</strong> – Legitimität, Moral, päpstliche Unterstützung</td></tr>
+  <tr><td>👑</td><td><strong>Diplomatie</strong> – Allianzen, Heiratspolitik, Verhandlungen</td></tr>
+  <tr><td>💰</td><td><strong>Handel</strong> – Finanzen, Tribute, Söldner</td></tr>
+  <tr><td>🏰</td><td><strong>Burgen</strong> – Grenzsicherung, Befestigung, Rückzugsort</td></tr>
+  <tr><td>🌾</td><td><strong>Besiedlung</strong> – Bevölkerung, Landwirtschaft, Stabilität</td></tr>
+</table>
+
+<h2>Das Tableau</h2>
+<p>Das gemeinsame Tableau zeigt sechs Regionen von Nord nach Süd:</p>
+<table>
+  <tr><th>W6</th><th>Region</th><th>Status</th></tr>
+  <tr><td>–</td><td>Kantabrien / Pyrenäen</td><td>Startgebiet – bereits in christlicher Hand</td></tr>
+  <tr><td>1</td><td>Meseta Norte</td><td>Fixe Krise: Kalifat von Córdoba</td></tr>
+  <tr><td>2</td><td>Toledo / Tajo</td><td>Fixe Krise: Taifa-Könige von Toledo</td></tr>
+  <tr><td>3</td><td>Valencia / Levante</td><td>Fixe Krise: Taifa von Valencia</td></tr>
+  <tr><td>4</td><td>Extremadura</td><td>Fixe Krise: Almoravidenreich</td></tr>
+  <tr><td>5</td><td>Andalusien / Granada</td><td>Fixe Krisen: Nasridensultanat (oben) + Belagerung (darunter)</td></tr>
+</table>
+<p>Jede Region hat drei Slots: <strong>Militär, Besiedlung, Krise.</strong></p>
+
+<h2>Karten</h2>
+<p>Jede Aktionskarte hat drei Bereiche:</p>
+<ul>
+  <li><strong>Aktion (oben):</strong> Was passiert wenn die Karte oben auf einem Slot liegt und gespielt wird.</li>
+  <li><strong>Fixbonus:</strong> Ein fixer Symbolbonus der immer dazukommt wenn die Karte oben liegt – unabhängig vom Stapel darunter.</li>
+  <li><strong>Verstärkung (unten):</strong> Symbole die die Karte beisteuert wenn sie unter einer anderen Karte liegt.</li>
+</ul>
+<div class="box">
+  <strong>Stärke eines Stapels:</strong> Summe aller passenden Symbole im gesamten Stapel + Fixbonus der obersten Karte + aufgedruckte Startverstärkung des Tableaus.
+</div>
+
+<div class="pagebreak"></div>
+
+<h2>Wichtige Grundregeln</h2>
+
+<h3>Karten werden nicht verbraucht</h3>
+<p>Eine gespielte Karte bleibt immer auf dem Slot liegen. Karten verschwinden nur durch Krisenstrafen die explizit das Abwerfen verlangen.</p>
+
+<h3>Stapelregeln</h3>
+<ul>
+  <li>Neue Karten dürfen oben oder unten auf einen Slot gelegt werden – die Entscheidung ist endgültig.</li>
+  <li>Einmal gelegte Karten können nicht mehr verschoben oder umgeschichtet werden.</li>
+  <li>Es gibt keine Begrenzung wie viele Karten auf einem Slot liegen dürfen.</li>
+  <li>Die oberste Karte bestimmt immer die Aktion – alle darunter verstärken sie.</li>
+</ul>
+
+<h3>Startverstärkung</h3>
+<p>Jedes Königreich-Tableau hat pro Slot ein aufgedrucktes Symbol. Dieses zählt immer als unterste Verstärkung – es kann nie abgeworfen werden.</p>
+
+<h3>Tokens auf Krisen</h3>
+<p>Wenn ein Spieler Symbole auf eine Krise legt, nimmt er die entsprechenden Token und legt sie auf die Krisenkarte. Symbole verschiedener Spieler und Runden addieren sich. Sind genug Token versammelt wird die Krise gelöst – alle Token kommen zurück in den Vorrat.</p>
+
+<h3>Kooperationsmoment</h3>
+<p>Einmal pro Runde darf ein Spieler genau <strong>eine Karte</strong> an einen Mitspieler weitergeben. Die Karte kommt von der obersten Position eines Slots und wird vom Empfänger sofort auf einen seiner Slots gelegt – oben oder unten, endgültig.</p>
+
+<h3>Spielerzahl</h3>
+<table>
+  <tr><th>Spieler</th><th>Königreiche pro Spieler</th><th>Setup</th><th>Nachziehen/Runde</th></tr>
+  <tr><td>4</td><td>1</td><td>6 Karten</td><td>2 Karten</td></tr>
+  <tr><td>3</td><td>1–2</td><td>8 Karten</td><td>3 Karten</td></tr>
+  <tr><td>2</td><td>2</td><td>10 Karten</td><td>4 Karten</td></tr>
+</table>
+
+<h2>Aufbau</h2>
+<ol style="margin-left:5mm; line-height:1.8">
+  <li>Tableau in die Mitte legen. Fixe Regionskrisen auf die jeweiligen Regionen legen. Granada bekommt zwei Karten gestapelt – Nasridensultanat oben, Belagerung darunter.</li>
+  <li>Krisenstapel mischen und verdeckt bereit legen.</li>
+  <li>Kartendeck mischen. Jeder Spieler zieht Karten gemäß Spielerzahltabelle und verteilt sie frei auf seine 3 Slots – mindestens 1 Karte pro Slot. Einmal gelegte Karten können nicht mehr verschoben werden.</li>
+  <li>Kantabrien ist offen – keine fixe Krise, Slots sofort nutzbar.</li>
+</ol>
+
+<h2>Spielablauf</h2>
+
+<h3>1. Krisenphase</h3>
+<p>Eine neue Krisenkarte wird aufgedeckt. Ein W6 bestimmt die Zielregion (1–5 = Region von Nord nach Süd, 6 = Krise wird ignoriert und abgelegt).</p>
+<ul>
+  <li>Ist die gewürfelte Region noch muslimisch oder hat bereits eine Krise → eine Region weiter nach Süden.</li>
+  <li>Sind alle eroberten Regionen belegt → die südlichste Krise eskaliert statt einer neuen.</li>
+  <li>Ist der Krisenstapel leer → neu mischen und weiter ziehen.</li>
+</ul>
+
+<h3>2. Beratungsphase</h3>
+<p>Die Spieler schauen gemeinsam das Tableau an. Symbole auf den eigenen Karten dürfen angesagt werden – die Karten selbst darf man nicht zeigen.</p>
+
+<h3>3. Aktionsphase</h3>
+<p>Reihum spielt jeder Spieler die <strong>oberste Karte</strong> eines seiner Slots. Die Stärke ergibt sich aus der Summe aller passenden Symbole im Stapel plus Fixbonus. Der Spieler entscheidet wohin die Symbole als Tokens gehen – auf eine dynamische Krise oder eine fixe Regionskrise.</p>
+
+<h3>4. Kooperationsmoment</h3>
+<p>Einmal pro Runde darf ein Spieler eine Karte an einen Mitspieler weitergeben.</p>
+
+<h3>5. Auflösungsphase</h3>
+<p>Wurden genug Tokens auf eine Krise gelegt? Krise wird gelöst, Tokens zurück in den Vorrat. Bei einer fixen Regionskrise gilt die Region als <strong>erobert</strong>. Wurden nicht genug Tokens gelegt? Eskalationsmarker auf die Krise legen. Bei zwei Markern fällt die Region zurück.</p>
+
+<h3>6. Nachziehphase</h3>
+<p>Jeder Spieler zieht Karten nach (gemäß Spielerzahltabelle) und legt sie sofort auf seine Slots – oben oder unten, endgültig. Ist das Deck leer, entfällt das Nachziehen.</p>
+
+<h2>Regionen verlieren</h2>
+<p>Wenn eine dynamische Krise in einer eroberten Region <strong>zweimal eskaliert</strong> ohne gelöst zu werden:</p>
+<ul>
+  <li>Die Region fällt zurück – die ursprüngliche fixe Regionskrise wird wieder aufgelegt.</li>
+  <li>Alle Slots der Region werden blockiert.</li>
+  <li>Alle angesammelten Tokens auf der Krise gehen verloren.</li>
+  <li>Die Region muss erneut erobert werden.</li>
+</ul>
+
+<h2>Krisen</h2>
+<h3>Dynamische Krisen</h3>
+<p>Jede Krisenkarte zeigt: Symbole zum Lösen (immer mind. 2 verschiedene, Tokens dürfen sich über Runden ansammeln), Soforteffekt beim Aufdecken, Eskalationseffekt wenn ungelöst.</p>
+
+<h3>Fixe Regionskrisen</h3>
+<p>Liegen fest auf muslimischen Regionen. Blockieren alle Slots. Eskalieren nicht. Müssen gelöst werden um die Region zu erobern. Werden schwerer von Nord nach Süd.</p>
+
+</body>
+</html>

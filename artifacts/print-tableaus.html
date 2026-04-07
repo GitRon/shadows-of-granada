@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, serif;
+    background: white;
+    width: 210mm;
+    margin: 0 auto;
+    padding: 12mm 12mm;
+  }
+
+  h1 { font-size: 13pt; text-align: center; color: #3b2a1a; margin-bottom: 1mm; }
+  .sub { font-size: 7.5pt; text-align: center; color: #7a5c3a; margin-bottom: 5mm; }
+  .section-title { font-size: 10pt; color: #3b2a1a; font-weight: bold; margin: 5mm 0 3mm; border-bottom: 1px solid #c0a880; padding-bottom: 1mm; }
+
+  /* GEMEINSAMES TABLEAU */
+  .main-tableau { width: 100%; border-collapse: collapse; font-size: 8pt; }
+  .main-tableau th { background: #3b2a1a; color: white; padding: 2mm 3mm; text-align: center; font-size: 7.5pt; }
+  .main-tableau th.left { text-align: left; }
+  .main-tableau td { padding: 1.5mm 2mm; border-bottom: 1px solid #e0d0c0; vertical-align: middle; }
+  .region-cell { border-radius: 4px; padding: 2mm 3mm; color: white; }
+  .region-cell .rname { font-weight: bold; font-size: 8.5pt; }
+  .region-cell .rsub { font-size: 6.5pt; opacity: 0.85; margin-top: 0.5mm; }
+  .slot-box { width: 100%; height: 12mm; border-radius: 4px; border: 2px dashed #b09070; display: flex; align-items: center; justify-content: center; font-size: 14pt; }
+  .slot-box.crisis { border-color: #c0392b; background: #fdecea; color: #c0392b; }
+  .slot-box.free { background: #e8f5e9; font-size: 7pt; color: #9a9a9a; }
+  .slot-box.empty { background: #ede8de; }
+  .w6-box { width: 100%; height: 12mm; border-radius: 4px; border: 2px solid #b09070; display: flex; align-items: center; justify-content: center; font-size: 11pt; font-weight: bold; color: #3b2a1a; background: #ede8de; }
+  .w6-box.start { background: #e8f5e9; color: #aaa; font-size: 7pt; }
+
+  /* KÖNIGREICH TABLEAUS */
+  .pagebreak { page-break-before: always; }
+  .kingdoms { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .kingdom { border-radius: 6px; border: 3px solid; padding: 4mm; page-break-inside: avoid; }
+  .kingdom-name { font-weight: bold; font-size: 11pt; text-align: center; }
+  .kingdom-desc { font-size: 7pt; color: #9a7a5a; text-align: center; font-style: italic; margin-bottom: 4mm; }
+  .slots-row { display: flex; gap: 3mm; justify-content: center; }
+  .slot-col { display: flex; flex-direction: column; align-items: center; gap: 2mm; flex: 1; }
+  .slot-label { font-size: 7pt; color: #9a7a5a; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .card-stack { position: relative; width: 100%; height: 68mm; }
+  .card-layer { position: absolute; left: 0; right: 0; height: 50mm; border-radius: 4px; border: 2px dashed; overflow: hidden; }
+  .card-layer.top { top: 0; background: #f5f0e8; box-shadow: 1px 2px 4px rgba(0,0,0,0.1); z-index:3; }
+  .card-layer.mid { top: 9mm; background: #faf7f2; z-index:2; }
+  .card-layer.bot { top: 18mm; background: #faf7f2; z-index:1; }
+
+  .card-top-inner { display: flex; flex-direction: column; height: 100%; }
+  .card-aktion { padding: 2mm 3mm; flex:1; border-bottom: 1px dashed #c0a880; }
+  .card-aktion .lbl { font-size: 6pt; color: #9a7a5a; text-transform: uppercase; }
+  .card-verst { padding: 2mm 3mm; }
+  .card-verst .lbl { font-size: 6pt; color: #9a7a5a; text-transform: uppercase; }
+
+  .peek { position: absolute; bottom: 2mm; left: 0; right: 0; padding: 1mm 3mm; }
+  .peek .lbl { font-size: 6pt; color: #9a7a5a; text-transform: uppercase; }
+
+  .fixed-sym { position: absolute; bottom: 2mm; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; }
+  .fixed-sym .lbl { font-size: 6pt; text-transform: uppercase; letter-spacing: 0.5px; }
+  .fixed-sym .sym { font-size: 16pt; line-height: 1; }
+
+  @media print {
+    body { padding: 10mm 10mm; }
+    .pagebreak { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<h1>RECONQUISTA – Tableaus</h1>
+<p class="sub">Gemeinsames Tableau + 4 Königreich-Tableaus · Auf dickes Papier drucken</p>
+
+<div class="section-title">🗺 Gemeinsames Tableau</div>
+<table class="main-tableau">
+  <thead>
+    <tr>
+      <th class="left" style="width:42%">REGION</th>
+      <th style="width:14%">⚔️ Militär</th>
+      <th style="width:14%">🏘️ Besiedlung</th>
+      <th style="width:14%">⚠️ Krise</th>
+      <th style="width:8%">W6</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+
+<p style="font-size:7pt; color:#9a7a5a; margin-top:3mm; text-align:center">
+  🔒 = fixe Regionskrise · 🔒🔒 = Granada (zwei Schichten) · W6 = 6 ignoriert Krise · frei = Kantabrien
+</p>
+
+<div class="pagebreak"></div>
+
+<h1>RECONQUISTA – Königreich-Tableaus</h1>
+<p class="sub">Aufgedrucktes Symbol = permanente Startverstärkung · Kann nie abgeworfen werden</p>
+
+<div class="kingdoms" id="kingdoms"></div>
+
+<script>
+const regions = [
+  { name:"Kantabrien / Pyrenäen", sub:"Startgebiet – sicher",           color:"#4a7c59", w6:"–", crisis:false, double:false, start:true },
+  { name:"Meseta Norte",          sub:"Fixe Krise: Kalifat von Córdoba", color:"#7a9e4e", w6:"1", crisis:true,  double:false, start:false },
+  { name:"Toledo / Tajo",         sub:"Fixe Krise: Taifa von Toledo",    color:"#c8a84b", w6:"2", crisis:true,  double:false, start:false },
+  { name:"Valencia / Levante",    sub:"Fixe Krise: Taifa von Valencia",  color:"#c47a3a", w6:"3", crisis:true,  double:false, start:false },
+  { name:"Extremadura",           sub:"Fixe Krise: Almoravidenreich",    color:"#b05030", w6:"4", crisis:true,  double:false, start:false },
+  { name:"Andalusien / Granada",  sub:"Nasridensultanat + Belagerung",   color:"#a33a2e", w6:"5", crisis:true,  double:true,  start:false },
+];
+
+const tbody = document.getElementById("tbody");
+regions.forEach(r => {
+  tbody.innerHTML += `<tr>
+    <td><div class="region-cell" style="background:${r.color}">
+      <div class="rname">${r.name}</div>
+      <div class="rsub">${r.sub}</div>
+    </div></td>
+    <td><div class="slot-box ${r.start?'free':'empty'}">${r.start?'frei':''}</div></td>
+    <td><div class="slot-box ${r.start?'free':'empty'}">${r.start?'frei':''}</div></td>
+    <td><div class="slot-box ${r.crisis?'crisis':'free'}">${r.double?'🔒🔒':r.crisis?'🔒':'frei'}</div></td>
+    <td><div class="w6-box ${r.start?'start':''}">${r.w6}</div></td>
+  </tr>`;
+});
+
+const players = [
+  { name:"Kastilien", color:"#b5451b", desc:"Militärische Vormacht der Reconquista", slots:[{l:"Slot 1",f:"⚔️"},{l:"Slot 2",f:"⚔️"},{l:"Slot 3",f:"🌾"}] },
+  { name:"Aragón",    color:"#d4a017", desc:"Meister der Diplomatie und des Handels", slots:[{l:"Slot 1",f:"👑"},{l:"Slot 2",f:"💰"},{l:"Slot 3",f:"👑"}] },
+  { name:"Portugal",  color:"#2e6b3e", desc:"Küstenmacht mit starken Befestigungen",  slots:[{l:"Slot 1",f:"🏰"},{l:"Slot 2",f:"⚔️"},{l:"Slot 3",f:"🏰"}] },
+  { name:"Navarra",   color:"#3a5a8a", desc:"Hüter der Kirche und der Pyrenäen",      slots:[{l:"Slot 1",f:"✝️"},{l:"Slot 2",f:"✝️"},{l:"Slot 3",f:"👑"}] },
+];
+
+const kGrid = document.getElementById("kingdoms");
+players.forEach(p => {
+  const slotsHtml = p.slots.map(s => `
+    <div class="slot-col">
+      <div class="slot-label">${s.l}</div>
+      <div class="card-stack">
+        <div class="card-layer bot" style="border-color:${p.color}">
+          <div class="fixed-sym">
+            <div class="lbl" style="color:${p.color}">fix</div>
+            <div class="sym">${s.f}</div>
+          </div>
+        </div>
+        <div class="card-layer mid" style="border-color:${p.color}">
+          <div class="peek"><div class="lbl">Verstärkung</div></div>
+        </div>
+        <div class="card-layer top" style="border-color:${p.color}">
+          <div class="card-top-inner">
+            <div class="card-aktion"><div class="lbl">Aktion</div></div>
+            <div class="card-verst"><div class="lbl">Verstärkung</div></div>
+          </div>
+        </div>
+      </div>
+    </div>`).join("");
+
+  kGrid.innerHTML += `
+    <div class="kingdom" style="border-color:${p.color}">
+      <div class="kingdom-name" style="color:${p.color}">${p.name}</div>
+      <div class="kingdom-desc">${p.desc}</div>
+      <div class="slots-row">${slotsHtml}</div>
+    </div>`;
+});
+</script>
+</body>
+</html>
