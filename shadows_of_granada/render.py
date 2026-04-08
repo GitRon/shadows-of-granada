@@ -1,7 +1,5 @@
 """Render game data to printable HTML files using Jinja2 templates."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader

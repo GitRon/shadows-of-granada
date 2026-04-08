@@ -211,3 +211,6 @@ output/
 
 # PyCharm
 .idea
+
+# AI
+.claude/settings.local.json
