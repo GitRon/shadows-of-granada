@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: white; width: 210mm; margin: 0 auto; padding: 10mm; }
+  h1 { font-size: 14pt; text-align: center; color: #3b2a1a; margin-bottom: 1mm; }
+  .sub { font-size: 8pt; text-align: center; color: #7a5c3a; margin-bottom: 6mm; }
+  .section { margin-bottom: 6mm; }
+  .section-title { font-size: 9pt; font-weight: bold; color: #3b2a1a; margin-bottom: 3mm; display: flex; align-items: center; gap: 2mm; }
+  .token-row { display: flex; flex-wrap: wrap; gap: 3mm; }
+  .token {
+    width: 16mm; height: 16mm;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    page-break-inside: avoid;
+  }
+  .token .sym { font-size: 18pt; line-height: 1; }
+  .divider { border: none; border-top: 1px dashed #c0a880; margin: 5mm 0; }
+  .hint { font-size: 7.5pt; color: #7a5c3a; line-height: 1.6; margin-top: 4mm; border: 1px solid #c0a880; border-radius: 4px; padding: 3mm 4mm; background: #faf7f2; }
+  .hint strong { color: #3b2a1a; }
+  @media print { body { padding: 8mm; } }
+</style>
+</head>
+<body>
+
+<h1>RECONQUISTA – Tokens</h1>
+<p class="sub">72 Symboltokens + 12 Eskalationsmarker · Auf dickes Papier drucken · Ausschneiden · Empfehlung: laminieren</p>
+
+{%- for s in symbols %}
+<div class="section">
+  <div class="section-title">
+    <span style="font-size:14pt">{{ s.emoji }}</span>
+    <span style="color:{{ s.color }}">{{ s.name }}</span>
+    <span style="color:#9a7a5a; font-weight:normal">({{ s.count }} Stück)</span>
+  </div>
+  <div class="token-row">
+  {%- for _ in range(s.count) %}
+    <div class="token" style="border-color:{{ s.color }}; background:{{ s.light }}">
+      <div class="sym">{{ s.emoji }}</div>
+    </div>
+  {%- endfor %}
+  </div>
+</div>
+{%- endfor %}
+
+<hr class="divider">
+
+<div class="hint">
+  <strong>Symboltokens:</strong> Wenn du Symbole auf eine Krise legst, nimmst du die entsprechenden Tokens und legst sie auf die Krisenkarte. Tokens verschiedener Spieler und Runden addieren sich. Sind genug Tokens versammelt, ist die Krise gelöst – alle Tokens zurück in den Vorrat.<br>
+  <strong>Eskalationsmarker 🔺:</strong> Nach jeder Runde in der eine Krise ungelöst bleibt, kommt ein Marker drauf. Bei zwei Markern fällt die Region zurück.
+</div>
+</body>
+</html>
