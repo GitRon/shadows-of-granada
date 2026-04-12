@@ -4,30 +4,32 @@
 
 ## Overview
 
-Players control one of four Iberian kingdoms (Kastilien, Aragon, Portugal, Navarra) working together to reclaim the peninsula region by region, from Kantabrien in the north to Granada in the south. Dynamic crises threaten progress each round while fixed regional crises must be overcome to conquer new territory.
+Players control one of four Iberian kingdoms (Kastilien, Aragon, Portugal, Navarra) working together to reclaim the
+peninsula region by region, from Kantabrien in the north to Granada in the south. Dynamic crises threaten progress each
+round while fixed regional crises must be overcome to conquer new territory.
 
 ## Components
 
-| Component | Count | Description |
-|---|---|---|
-| Action cards | 24 | 4 per symbol, shared deck |
-| Dynamic crises | 12 | Random events each round |
-| Regional crises | 6 | Fixed on Muslim-held regions |
-| Kingdom tableaus | 4 | 3 card slots each with printed starting reinforcement |
-| Symbol tokens | 72 | 12 per symbol type |
-| Escalation markers | 12 | Track unresolved crises |
-| Shared tableau | 1 | 6 regions north to south |
+| Component          | Count | Description                                           |
+|--------------------|-------|-------------------------------------------------------|
+| Action cards       | 24    | 4 per symbol, shared deck                             |
+| Dynamic crises     | 12    | Random events each round                              |
+| Regional crises    | 6     | Fixed on Muslim-held regions                          |
+| Kingdom tableaus   | 4     | 3 card slots each with printed starting reinforcement |
+| Symbol tokens      | 72    | 12 per symbol type                                    |
+| Escalation markers | 12    | Track unresolved crises                               |
+| Shared tableau     | 1     | 6 regions north to south                              |
 
 ## Symbols
 
-| Symbol | Name | Domain |
-|---|---|---|
-| ⚔️ | Militar | Battles, sieges, defense |
-| ✝️ | Kirche | Legitimacy, morale, papal support |
-| 👑 | Diplomatie | Alliances, marriage politics |
-| 💰 | Handel | Finance, tributes, mercenaries |
-| 🏰 | Burgen | Border security, fortification |
-| 🌾 | Besiedlung | Population, agriculture, stability |
+| Symbol | Name       | Domain                             |
+|--------|------------|------------------------------------|
+| ⚔️     | Militar    | Battles, sieges, defense           |
+| ✝️     | Kirche     | Legitimacy, morale, papal support  |
+| 👑     | Diplomatie | Alliances, marriage politics       |
+| 💰     | Handel     | Finance, tributes, mercenaries     |
+| 🏰     | Burgen     | Border security, fortification     |
+| 🌾     | Besiedlung | Population, agriculture, stability |
 
 ## Project structure
 
